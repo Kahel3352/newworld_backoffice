@@ -39,7 +39,8 @@ void ConnexionWindow::clickOk()
     query.prepare("SELECT employe.* FROM employe WHERE nom=? AND prenom=? AND mdp=?");
     query.addBindValue(ui->lineEditNom->text());
     query.addBindValue(ui->lineEditPrenom->text());
-    query.addBindValue(QCryptographicHash::hash("test"),QCryptographicHash::Md5);
+    query.addBindValue(QCryptographicHash::hash(QByteArray(ui->lineEditMdp->text().toUtf8()), QCryptographicHash::Md5).toHex());
+    qDebug()<<QCryptographicHash::hash(QByteArray(ui->lineEditMdp->text().toUtf8()), QCryptographicHash::Md5).toHex();
     if(query.exec())
     {
         if(query.size()>0)
