@@ -22,3 +22,6 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui \
     connexionwindow.ui
+
+RESOURCES += \
+    ressources.qrc

@@ -17,7 +17,7 @@ class ConnexionWindow : public QDialog
      */
 
 public:
-    explicit ConnexionWindow(QWidget *parent = 0);
+    explicit ConnexionWindow(QSqlDatabase* db, QWidget *parent = 0);
     ~ConnexionWindow();
 
 
@@ -28,8 +28,11 @@ public:
 
 private:
     Ui::ConnexionWindow *ui;
-    bool connectDatabase();
-    QSqlDatabase db;
+
+    /**
+     * @brief QSqlDatabase envoyé en paramètre par le main
+     */
+    QSqlDatabase* db;
 
     /**
      * @brief Patronyme de l'employé qui a réussi à se connecter

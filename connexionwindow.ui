@@ -33,7 +33,11 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="lineEditNom"/>
+       <widget class="QLineEdit" name="lineEditNom">
+        <property name="text">
+         <string>Vanlerberghe</string>
+        </property>
+       </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="labelPrenom">
@@ -50,10 +54,17 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QLineEdit" name="lineEditPrenom"/>
+       <widget class="QLineEdit" name="lineEditPrenom">
+        <property name="text">
+         <string>Michaël</string>
+        </property>
+       </widget>
       </item>
       <item row="2" column="1">
        <widget class="QLineEdit" name="lineEditMdp">
+        <property name="text">
+         <string>azerty</string>
+        </property>
         <property name="echoMode">
          <enum>QLineEdit::Password</enum>
         </property>

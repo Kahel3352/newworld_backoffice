@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/icones">
+        <file>img/check.png</file>
+        <file>img/decline.png</file>
+    </qresource>
+</RCC>

@@ -3,22 +3,18 @@
 #include <QSqlQuery>
 #include <QCryptographicHash>
 
-ConnexionWindow::ConnexionWindow(QWidget *parent) :
+ConnexionWindow::ConnexionWindow(QSqlDatabase* db, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ConnexionWindow)
 {
     qDebug()<<"ConnexionWindow::ConnexionWindow(QWidget *parent) :QDialog(parent),ui(new Ui::ConnexionWindow)";
     ui->setupUi(this);
+
+    this->db = db;
+
     //on lie les slots on boutons
     connect(ui->pushButtonOk, SIGNAL(clicked()), this, SLOT(clickOk()));
     connect(ui->pushButtonCancel, SIGNAL(clicked()), this, SLOT(clickCancel()));
-
-    //on ouvre la base de donnée
-    if(!connectDatabase())
-    {
-        qDebug()<<"Connexion à la bdd échouée";
-        qDebug()<<db.lastError();
-    }
 }
 
 ConnexionWindow::~ConnexionWindow()
@@ -35,12 +31,12 @@ QString ConnexionWindow::getLogin()
 //quand on clic sur ok
 void ConnexionWindow::clickOk()
 {
+    qDebug()<<"void ConnexionWindow::clickOk()";
     QSqlQuery query;
-    query.prepare("SELECT employe.* FROM employe WHERE nom=? AND prenom=? AND mdp=?");
+    query.prepare("SELECT Employe.* FROM Employe WHERE nom=? AND prenom=? AND mdp=password(?)");
     query.addBindValue(ui->lineEditNom->text());
     query.addBindValue(ui->lineEditPrenom->text());
-    query.addBindValue(QCryptographicHash::hash(QByteArray(ui->lineEditMdp->text().toUtf8()), QCryptographicHash::Md5).toHex());
-    qDebug()<<QCryptographicHash::hash(QByteArray(ui->lineEditMdp->text().toUtf8()), QCryptographicHash::Md5).toHex();
+    query.addBindValue(ui->lineEditMdp->text());
     if(query.exec())
     {
         if(query.size()>0)
@@ -55,23 +51,14 @@ void ConnexionWindow::clickOk()
             ui->labelMdp->setStyleSheet("color: red");
         }
     }
+    else
+        qDebug()<<"La requête ne s'execute pas";
 }
 
 //quand on click sur annuler
 void ConnexionWindow::clickCancel()
 {
+    qDebug()<<"void ConnexionWindow::clickCancel()";
     //on renvoie rejected
     reject();
-}
-
-
-bool ConnexionWindow::connectDatabase()
-{
-    qDebug()<<"bool ConnexionWindow::connectDatabase()";
-    db = QSqlDatabase::addDatabase("QMYSQL3");
-    db.setHostName("localhost");
-    db.setDatabaseName("nw");
-    db.setUserName("mvanlerberghe");
-    db.setPassword("ini01");
-    return db.open();
 }
